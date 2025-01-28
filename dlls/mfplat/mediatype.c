@@ -413,16 +413,8 @@ static HRESULT WINAPI mediatype_SetUINT64(IMFMediaType *iface, REFGUID key, UINT
     GUID type;
     mediatype_GetGUID(iface, &MF_MT_SUBTYPE, &type);
     
-    switch (value) {
-        case 0x78000000440:
-        case 0x46000000250:
-        case 0x26000000260:
-        case 0x4e0000002c0:
-            if (IsEqualGUID(&type, &MFVideoFormat_NV12))
-                return S_OK;
-        default:
-            break;
-    }
+    if (value == 0x78000000440)
+        value = 0x78000000438;
 
     TRACE("%p, %s, %s.\n", iface, debugstr_attr(key), wine_dbgstr_longlong(value));
 
