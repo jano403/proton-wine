@@ -540,11 +540,8 @@ static IMFMediaType *mf_media_type_from_wg_format_video(const struct wg_format *
 
             // ANONYMOUS;CODE expects MF_MT_MINIMUM_DISPLAY_APERTURE to always be set.
 
-            const char *sgi = getenv("SteamGameId");
-
             if (format->u.video.padding.left || format->u.video.padding.right
-                || format->u.video.padding.top || format->u.video.padding.bottom
-                || (sgi && !strcmp(sgi, "2291020")))
+                || format->u.video.padding.top || format->u.video.padding.bottom)
             {
                 MFVideoArea aperture =
                 {
@@ -553,7 +550,7 @@ static IMFMediaType *mf_media_type_from_wg_format_video(const struct wg_format *
                     .Area.cx = width - format->u.video.padding.right - format->u.video.padding.left,
                     .Area.cy = height - format->u.video.padding.bottom - format->u.video.padding.top,
                 };
-
+            
                 IMFMediaType_SetBlob(type, &MF_MT_MINIMUM_DISPLAY_APERTURE,
                         (BYTE *)&aperture, sizeof(aperture));
             }
