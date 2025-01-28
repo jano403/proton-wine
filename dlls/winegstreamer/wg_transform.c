@@ -423,6 +423,9 @@ NTSTATUS wg_transform_create(void *args)
             transform->input_is_flipped = wg_format_video_is_flipped(&input_format);
             if (transform->input_is_flipped != wg_format_video_is_flipped(&output_format))
                 gst_util_set_object_arg(G_OBJECT(transform->video_flip), "method", "vertical-flip");
+            if (!(element = create_element("videoscale", "base"))
+                || !append_element(transform->container, element, &first, &last))
+                goto out;
             if (!(element = create_element("videoconvert", "base"))
                     || !append_element(transform->container, element, &first, &last))
                 goto out;

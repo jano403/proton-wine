@@ -538,8 +538,13 @@ static IMFMediaType *mf_media_type_from_wg_format_video(const struct wg_format *
                 stride = -stride;
             IMFMediaType_SetUINT32(type, &MF_MT_DEFAULT_STRIDE, stride);
 
+            // ANONYMOUS;CODE expects MF_MT_MINIMUM_DISPLAY_APERTURE to always be set.
+
+            const char *sgi = getenv("SteamGameId");
+
             if (format->u.video.padding.left || format->u.video.padding.right
-                || format->u.video.padding.top || format->u.video.padding.bottom)
+                || format->u.video.padding.top || format->u.video.padding.bottom
+                || (sgi && !strcmp(sgi, "2291020")))
             {
                 MFVideoArea aperture =
                 {
